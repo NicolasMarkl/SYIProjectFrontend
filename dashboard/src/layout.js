@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, CssBaseline, Drawer, AppBar, Toolbar, List, Typography, Divider, ListItem, ListItemIcon, ListItemText } from '@mui/material';
-import MailIcon from '@mui/icons-material/Mail';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
+import EuroOutlined from '@mui/icons-material/EuroOutlined';
+import SubjectOutlined from '@mui/icons-material/SubjectOutlined';
 import { Link } from 'react-router-dom';
 
 const drawerWidth = 240;
@@ -28,10 +28,10 @@ const Layout = ({ children }) => {
         <Toolbar />
         <Box sx={{ overflow: 'auto' }}>
           <List>
-            {['NÖ', 'Wien', 'Burgenland', 'Andere'].map((text, index) => (
+            {['2024', '2023', 'Vergleich'].map((text, index) => (
               <ListItem button key={text} component={Link} to="/">
                 <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                  <EuroOutlined />
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>
@@ -41,7 +41,7 @@ const Layout = ({ children }) => {
           <List>
             <ListItem button component={Link} to="/impressum">
               <ListItemIcon>
-                <InboxIcon />
+                <SubjectOutlined />
               </ListItemIcon>
               <ListItemText primary="Impressum" />
             </ListItem>

@@ -6,7 +6,6 @@ import { fetchData } from './api';
 import Layout from './layout';
 
 const sampleData = {
-  // Define your sample data structure here
   budget: [
     { year: 2020, amount: 1000 },
     { year: 2021, amount: 1200 },
@@ -23,13 +22,13 @@ function Dashboard() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedState, setSelectedState] = useState('NÖ');
+  const [selectedState, setSelectedState] = useState('2024');
 
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
       try {
-        const apiData = await fetchData(`localhost:5000/api/budgetdata?state=${selectedState}`);
+        const apiData = await fetchData(`localhost:5081/groupedByKonto/2024`);
         if (!apiData || Object.keys(apiData).length === 0) {
           setData(sampleData);
         } else {
