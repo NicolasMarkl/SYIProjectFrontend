@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Typography, Grid } from '@mui/material';
+import { Typography, Grid, CircularProgress, Alert } from '@mui/material';
 import Charts from './charts';
 import { fetchData } from './api';
 import Layout from './layout';
@@ -12,6 +12,7 @@ function Dashboard() {
 
   const handleYearChange = (year) => {
     console.log('Year changed to:', year);
+    setError(null);
     setSelectedYear(year);
   };
 
@@ -46,14 +47,13 @@ function Dashboard() {
 
     loadData();
   }, [selectedYear]);
-
-  if (loading) return <p>Loading...</p>;
-  //if (error) return <p>Error loading data: {error}</p>;
   return (
     <Layout onYearChange={handleYearChange}>
       <Typography variant="h4" gutterBottom>
         Übersicht für {selectedYear}
       </Typography>
+      {loading && <CircularProgress />}
+      {error && <Alert severity="error">ERROR! {error}</Alert>}
       <Grid container spacing={3}>
         {data && 
           <Grid item xs={12}>
