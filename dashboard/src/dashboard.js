@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Typography, Grid } from '@mui/material';
 import Charts from './charts';
-import { useEffect, useState } from 'react';
 import { fetchData } from './api';
 import Layout from './layout';
 
@@ -22,42 +21,57 @@ function Dashboard() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedState, setSelectedState] = useState('2024');
+  const [selectedYear, setSelectedYear] = useState('2024'); // State to manage selected year
+
+  const handleYearChange = (year) => {
+    console.log('Year changed to:', year);
+    setSelectedYear(year);
+  };
 
   useEffect(() => {
     const loadData = async () => {
+      console.log('Loading data for year:', selectedYear);
       setLoading(true);
       try {
-        const apiData = await fetchData(`localhost:5081/groupedByKonto/2024`);
-        if (!apiData || Object.keys(apiData).length === 0) {
+        const [apiData1, apiData2] = await Promise.all([
+          fetchData(`http://localhost:5081/Budget/groupedByKonto/${selectedYear}`),
+          fetchData(`http://localhost:5081/Budget/groupedByVASTELLE/${selectedYear}`)
+        ]);
+
+        const combinedData = {
+          byKonto: apiData1,
+          byVASTELLE: apiData2,
+        };
+
+        if (!combinedData || Object.keys(combinedData).length === 0) {
           setData(sampleData);
         } else {
-          setData(apiData);
+          setData(combinedData);
         }
         setLoading(false);
       } catch (err) {
         setError(err.message);
-        setData(sampleData);  // Fallback to sample data in case of an error
+        setData(sampleData); // Fallback to sample data in case of an error
         setLoading(false);
       }
     };
 
     loadData();
-  }, [selectedState]);
+  }, [selectedYear]);
 
   if (loading) return <p>Loading...</p>;
   //if (error) return <p>Error loading data: {error}</p>;
   return (
-    <Layout>
+    <Layout onYearChange={handleYearChange}>
       <Typography variant="h4" gutterBottom>
-        Übersicht
+        Übersicht für {selectedYear}
       </Typography>
       <Grid container spacing={3}>
-        {data && data.budget && data.budget.map((chartData, index) => (
-          <Grid item xs={12} sm={6} md={4} key={index}>
-            <Charts data={chartData} />
+        {data && 
+          <Grid item xs={12}>
+            <Charts data={data} />
           </Grid>
-        ))}
+        }
       </Grid>
     </Layout>
   );

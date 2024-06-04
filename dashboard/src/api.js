@@ -1,15 +1,14 @@
-const API_BASE_URL = 'https://api.example.com/data';  // Change this to your actual API URL
-
-// Function to fetch data
-export const fetchData = async () => {
+export const fetchData = async (url) => {
   try {
-    const response = await fetch(API_BASE_URL);
+    console.log('Fetching data from URL:', url);
+    const response = await fetch(url);
     if (!response.ok) {
-      throw new Error('Network response was not ok');
+      throw new Error(`Network response was not ok: ${response.statusText}`);
     }
-    return await response.json();
+    const data = await response.json();
+    return data;
   } catch (error) {
-    console.error('There was a problem with the fetch operation:', error);
-    throw error; // Rethrow so calling component can handle the error
+    console.error('Fetch data failed:', error);
+    throw error;
   }
 };

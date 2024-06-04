@@ -2,11 +2,18 @@ import React from 'react';
 import { Box, CssBaseline, Drawer, AppBar, Toolbar, List, Typography, Divider, ListItem, ListItemIcon, ListItemText } from '@mui/material';
 import EuroOutlined from '@mui/icons-material/EuroOutlined';
 import SubjectOutlined from '@mui/icons-material/SubjectOutlined';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const drawerWidth = 240;
 
-const Layout = ({ children }) => {
+const Layout = ({ children, onYearChange = () => {} }) => {
+  const navigate = useNavigate();
+
+  const handleYearChange = (year) => {
+    onYearChange(year);
+    navigate('/');
+  };
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -28,8 +35,8 @@ const Layout = ({ children }) => {
         <Toolbar />
         <Box sx={{ overflow: 'auto' }}>
           <List>
-            {['2024', '2023', 'Vergleich'].map((text, index) => (
-              <ListItem button key={text} component={Link} to="/">
+            {['2024', '2023', 'Vergleich'].map((text) => (
+              <ListItem button key={text} onClick={() => handleYearChange(text)}>
                 <ListItemIcon>
                   <EuroOutlined />
                 </ListItemIcon>
