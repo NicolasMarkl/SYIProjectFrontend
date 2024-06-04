@@ -33,14 +33,13 @@ function Dashboard() {
         };
 
         if (!combinedData || Object.keys(combinedData).length === 0) {
-          setData(sampleData);
+          setError('No data found');
         } else {
           setData(combinedData);
         }
         setLoading(false);
       } catch (err) {
         setError(err.message);
-        setData(sampleData); // Fallback to sample data in case of an error
         setLoading(false);
       }
     };
