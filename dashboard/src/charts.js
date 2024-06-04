@@ -5,9 +5,6 @@ import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearSca
 // Register the necessary components for Chart.js
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
 
-// Sample total budget amount
-const budgetTotal = 1000000; // Total budget amount
-
 const options = {
   responsive: true,
   plugins: {
@@ -22,16 +19,9 @@ const options = {
 };
 
 function getTop10Data(dataArray, labelKey, valueKey) {
-  // Sort the data by value in descending order
   const sortedData = [...dataArray].sort((a, b) => b[valueKey] - a[valueKey]);
-
-  // Get the top 10 items
   const top10 = sortedData.slice(0, 10);
-
-  // Sum the rest of the items into "Other"
   const otherTotal = sortedData.slice(10).reduce((sum, item) => sum + item[valueKey], 0);
-
-  // Add the "Other" category if there are more than 10 items
   if (sortedData.length > 10) {
     top10.push({ [labelKey]: 'Other', [valueKey]: otherTotal });
   }
@@ -125,7 +115,7 @@ function BudgetDashboard({ data }) {
 
   return (
     <div>
-      <h2>Gesamtbudget: {budgetTotal} EUR</h2>
+      <h2>Gesamtbudget: {data.total} EUR</h2>
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
         <div>
           <h2>Verteilung auf die Konten</h2>

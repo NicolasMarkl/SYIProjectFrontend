@@ -4,19 +4,6 @@ import Charts from './charts';
 import { fetchData } from './api';
 import Layout from './layout';
 
-const sampleData = {
-  budget: [
-    { year: 2020, amount: 1000 },
-    { year: 2021, amount: 1200 },
-    { year: 2022, amount: 1500 }
-  ],
-  expenses: [
-    { category: 'Education', amount: 500 },
-    { category: 'Health', amount: 700 },
-    { category: 'Infrastructure', amount: 300 }
-  ]
-};
-
 function Dashboard() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -33,14 +20,16 @@ function Dashboard() {
       console.log('Loading data for year:', selectedYear);
       setLoading(true);
       try {
-        const [apiData1, apiData2] = await Promise.all([
+        const [groupedByKonto, groupedByVASTELLE, total] = await Promise.all([
           fetchData(`http://localhost:5081/Budget/groupedByKonto/${selectedYear}`),
-          fetchData(`http://localhost:5081/Budget/groupedByVASTELLE/${selectedYear}`)
+          fetchData(`http://localhost:5081/Budget/groupedByVASTELLE/${selectedYear}`),
+          fetchData(`http://localhost:5081/Budget/total/${selectedYear}`),
         ]);
 
         const combinedData = {
-          byKonto: apiData1,
-          byVASTELLE: apiData2,
+          byKonto: groupedByKonto,
+          byVASTELLE: groupedByVASTELLE,
+          total: total,
         };
 
         if (!combinedData || Object.keys(combinedData).length === 0) {
