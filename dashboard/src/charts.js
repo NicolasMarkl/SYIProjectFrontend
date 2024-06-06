@@ -58,21 +58,21 @@ function getTop10Data(dataArray, labelKey, valueKey) {
 }
 
 function BudgetDashboard({ data }) {
-  const top10Konto = getTop10Data(data.byKonto, 'konto', 'value');
-  const top10VASTELLE = getTop10Data(data.byVASTELLE, 'category', 'value');
+  const top10Kategorie = getTop10Data(data.byKategorie, 'kategorie', 'amount');
+  const top10UnterKategorie = getTop10Data(data.byUnterkategorie, 'unterkategorie', 'amount');
 
-  const byKontoLabels = top10Konto.map(item => item.konto);
-  const byKontoValues = top10Konto.map(item => item.value);
+  const byKategorieLabels = top10Kategorie.map(item => item.category);
+  const byKategorieValues = top10Kategorie.map(item => item.amount);
 
-  const byVASTELLELabels = top10VASTELLE.map(item => item.category);
-  const byVASTELLEValues = top10VASTELLE.map(item => item.value);
+  const byUnterKategorieLabels = top10UnterKategorie.map(item => item.category);
+  const byUnterKategorieValues = top10UnterKategorie.map(item => item.amount);
 
   const accountData = {
-    labels: byKontoLabels,
+    labels: byKategorieLabels,
     datasets: [
       {
-        label: 'Budget Distribution by Account',
-        data: byKontoValues,
+        label: 'Budgetverteilung in Kategorien',
+        data: byKategorieValues,
         backgroundColor: backgroundColors,
         borderColor: borderColors,
         borderWidth: 1,
@@ -81,11 +81,11 @@ function BudgetDashboard({ data }) {
   };
 
   const departmentData = {
-    labels: byVASTELLELabels,
+    labels: byUnterKategorieLabels,
     datasets: [
       {
-        label: 'Budget Distribution by Department',
-        data: byVASTELLEValues,
+        label: 'Budgetverteilung in Unterkategorien',
+        data: byUnterKategorieValues,
         backgroundColor: backgroundColors,
         borderColor: borderColors,
         borderWidth: 1,

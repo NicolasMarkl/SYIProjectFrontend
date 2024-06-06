@@ -21,15 +21,15 @@ function Dashboard() {
       console.log('Loading data for year:', selectedYear);
       setLoading(true);
       try {
-        const [groupedByKonto, groupedByVASTELLE, total] = await Promise.all([
-          fetchData(`http://localhost:5081/Budget/groupedByKonto/${selectedYear}`),
-          fetchData(`http://localhost:5081/Budget/groupedByVASTELLE/${selectedYear}`),
+        const [groupedByKategorie, groupedByUnterkategorie, total] = await Promise.all([
+          fetchData(`http://localhost:5081/Budget/groupedByUnterkategorie/${selectedYear}`),
+          fetchData(`http://localhost:5081/Budget/groupedByKategorie/${selectedYear}`),
           fetchData(`http://localhost:5081/Budget/total/${selectedYear}`),
         ]);
 
         const combinedData = {
-          byKonto: groupedByKonto,
-          byVASTELLE: groupedByVASTELLE,
+          byKategorie: groupedByKategorie,
+          byUnterkategorie: groupedByUnterkategorie,
           total: total,
         };
 
