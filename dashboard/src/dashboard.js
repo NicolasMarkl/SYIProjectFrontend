@@ -22,8 +22,8 @@ function Dashboard() {
       setLoading(true);
       try {
         const [groupedByKategorie, groupedByUnterkategorie, total, revenue] = await Promise.all([
-          fetchData(`http://localhost:5081/Budget/groupedByUnterkategorie/${selectedYear}`),
           fetchData(`http://localhost:5081/Budget/groupedByKategorie/${selectedYear}`),
+          fetchData(`http://localhost:5081/Budget/groupedByUnterkategorie/${selectedYear}`),
           fetchData(`http://localhost:5081/Budget/total/${selectedYear}`),
           fetchData(`http://localhost:5081/Budget/revenueGroupedByKategorie/${selectedYear}`),
         ]);

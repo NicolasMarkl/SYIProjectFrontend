@@ -65,13 +65,13 @@ function processRevenueData(revenueData) {
 }
 
 function BudgetDashboard({ data }) {
-  const byKategorieLabels = data.byKategorie.map(item => item.kategorie);
+  const byKategorieLabels = data.byKategorie.map(item => item.category);
   const byKategorieValues = data.byKategorie.map(item => item.amount);
 
-  const byUnterKategorieLabels = data.byUnterkategorie.map(item => item.unterkategorie);
+  const byUnterKategorieLabels = data.byUnterkategorie.map(item => item.category);
   const byUnterKategorieValues = data.byUnterkategorie.map(item => item.amount);
 
-  const revenueLabels = data.revenue.map(item => item.date);
+  const revenueLabels = data.revenue.map(item => item.category);
   const revenueValues = data.revenue.map(item => item.amount);
 
   const accountData = {
@@ -118,17 +118,17 @@ function BudgetDashboard({ data }) {
       <h2>Gesamtbudget: {data.total} EUR</h2>
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
         <div>
-          <h2>Verteilung auf die Konten</h2>
+          <h2>Verteilung auf die Kategorien</h2>
           <Pie data={accountData} options={options} />
         </div>
         <div>
-          <h2>Verteilung auf die Stabstellen</h2>
+          <h2>Verteilung auf die Unterkategorien</h2>
           <Bar data={departmentData} options={options} />
         </div>
-      </div>
-      <div>
-        <h2>Revenue Distribution</h2>
+        <div>
+        <h2>Verteilung der Einnahmen</h2>
         <Pie data={revenueData} options={options} />
+        </div>
       </div>
     </div>
   );
