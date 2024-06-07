@@ -46,26 +46,33 @@ const borderColors = [
   'rgba(255, 99, 132, 1)',
 ];
 
-function getTop10Data(dataArray, labelKey, valueKey) {
-  const sortedData = [...dataArray].sort((a, b) => b[valueKey] - a[valueKey]);
-  const top10 = sortedData.slice(0, 10);
-  const otherTotal = sortedData.slice(10).reduce((sum, item) => sum + item[valueKey], 0);
-  if (sortedData.length > 10) {
-    top10.push({ [labelKey]: 'Other', [valueKey]: otherTotal });
-  }
-
-  return top10;
+function processRevenueData(revenueData) {
+  const labels = revenueData.map(item => item.date);
+  const values = revenueData.map(item => item.amount);
+  
+  return {
+    labels,
+    datasets: [
+      {
+        label: 'Revenue',
+        data: values,
+        backgroundColor: backgroundColors,
+        borderColor: borderColors,
+        borderWidth: 1,
+      },
+    ],
+  };
 }
 
 function BudgetDashboard({ data }) {
-  const top10Kategorie = getTop10Data(data.byKategorie, 'kategorie', 'amount');
-  const top10UnterKategorie = getTop10Data(data.byUnterkategorie, 'unterkategorie', 'amount');
+  const byKategorieLabels = data.byKategorie.map(item => item.kategorie);
+  const byKategorieValues = data.byKategorie.map(item => item.amount);
 
-  const byKategorieLabels = top10Kategorie.map(item => item.category);
-  const byKategorieValues = top10Kategorie.map(item => item.amount);
+  const byUnterKategorieLabels = data.byUnterkategorie.map(item => item.unterkategorie);
+  const byUnterKategorieValues = data.byUnterkategorie.map(item => item.amount);
 
-  const byUnterKategorieLabels = top10UnterKategorie.map(item => item.category);
-  const byUnterKategorieValues = top10UnterKategorie.map(item => item.amount);
+  const revenueLabels = data.revenue.map(item => item.date);
+  const revenueValues = data.revenue.map(item => item.amount);
 
   const accountData = {
     labels: byKategorieLabels,
@@ -93,6 +100,19 @@ function BudgetDashboard({ data }) {
     ],
   };
 
+  const revenueData = {
+    labels: revenueLabels,
+    datasets: [
+      {
+        label: 'Revenue',
+        data: revenueValues,
+        backgroundColor: backgroundColors,
+        borderColor: borderColors,
+        borderWidth: 1,
+      },
+    ],
+  };
+
   return (
     <div>
       <h2>Gesamtbudget: {data.total} EUR</h2>
@@ -105,6 +125,10 @@ function BudgetDashboard({ data }) {
           <h2>Verteilung auf die Stabstellen</h2>
           <Bar data={departmentData} options={options} />
         </div>
+      </div>
+      <div>
+        <h2>Revenue Distribution</h2>
+        <Pie data={revenueData} options={options} />
       </div>
     </div>
   );
