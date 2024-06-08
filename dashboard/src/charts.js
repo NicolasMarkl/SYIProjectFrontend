@@ -65,6 +65,10 @@ function processRevenueData(revenueData) {
 }
 
 function BudgetDashboard({ data }) {
+  if (!data || !data.byKategorie || !data.byUnterkategorie || !data.revenue || !data.total) {
+    return <h2>No data found</h2>;
+  }
+
   const byKategorieLabels = data.byKategorie.map(item => item.category);
   const byKategorieValues = data.byKategorie.map(item => item.amount);
 
@@ -126,8 +130,8 @@ function BudgetDashboard({ data }) {
           <Bar data={departmentData} options={options} />
         </div>
         <div>
-        <h2>Verteilung der Einnahmen</h2>
-        <Pie data={revenueData} options={options} />
+          <h2>Verteilung der Einnahmen</h2>
+          <Pie data={revenueData} options={options} />
         </div>
       </div>
     </div>
