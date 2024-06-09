@@ -1,6 +1,7 @@
 import React from 'react';
 import { Bar, Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement } from 'chart.js';
+import { Divider } from '@mui/material';
 
 // Register the necessary components for Chart.js
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
@@ -117,9 +118,18 @@ function BudgetDashboard({ data }) {
     ],
   };
 
+  const formatCurrency = (amount) => {
+    return new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(amount);
+  };
+
+  const totalRevenue = data.revenue.reduce((acc, item) => acc + item.amount, 0);
+
   return (
     <div>
-      <h2>Gesamtbudget: {data.total} EUR</h2>
+      <Divider />
+      <h2>Gesamtbudget: {formatCurrency(data.total)} EUR</h2>
+      <h2>Gesamteinnahmen: {formatCurrency(totalRevenue)} EUR</h2>
+      <h4>Differenz: {formatCurrency(data.total - totalRevenue)} </h4>
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
         <div>
           <h2>Verteilung auf die Kategorien</h2>
