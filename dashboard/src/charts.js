@@ -3,7 +3,6 @@ import { Bar, Pie } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement } from 'chart.js';
 import { Divider } from '@mui/material';
 
-// Register the necessary components for Chart.js
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
 
 const pieOptions = {
@@ -12,11 +11,11 @@ const pieOptions = {
     legend: {
       position: 'top',
       labels: {
-        boxWidth: 10, // Adjust box width to use less space
+        boxWidth: 10,
         font: {
-          size: 10, // Adjust font size to use less space
+          size: 10,
         },
-        padding: 5, // Adjust padding to use less space
+        padding: 5,
       },
     },
     tooltip: {
@@ -30,7 +29,7 @@ const barOptions = {
   responsive: true,
   plugins: {
     legend: {
-      display: false, // Hide the legend for the bar chart
+      display: false,
     },
     tooltip: {
       mode: 'index',
@@ -39,7 +38,7 @@ const barOptions = {
   },
   scales: {
     x: {
-      display: false, // Hide x-axis labels
+      display: false,
     },
   },
 };
@@ -71,24 +70,6 @@ const borderColors = [
   'rgba(153, 102, 255, 1)',
   'rgba(255, 99, 132, 1)',
 ];
-
-function processRevenueData(revenueData) {
-  const labels = revenueData.map(item => item.date);
-  const values = revenueData.map(item => item.amount);
-  
-  return {
-    labels,
-    datasets: [
-      {
-        label: 'Revenue',
-        data: values,
-        backgroundColor: backgroundColors,
-        borderColor: borderColors,
-        borderWidth: 1,
-      },
-    ],
-  };
-}
 
 function BudgetDashboard({ data }) {
   if (!data || !data.byKategorie || !data.byUnterkategorie || !data.revenue || !data.total) {
