@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, CircularProgress, Box } from '@mui/material';
+import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box } from '@mui/material';
 
 function BudgetComparisonTable({ data }) {
   if (data.loading || !data.data || !data.data.budgetComparison) {
@@ -13,6 +13,16 @@ function BudgetComparisonTable({ data }) {
   const formatPercentage = (value) => {
     return `${value.toFixed(2)}%`;
   };
+
+  const sumRow = data.data.budgetComparison.reduce(
+    (acc, row) => {
+      acc.difference += row.difference;
+      acc.amount2024 += row.amount2024;
+      acc.amount2023 += row.amount2023;
+      return acc;
+    },
+    { difference: 0, amount2024: 0, amount2023: 0 }
+  );
 
   return (
     <div>
@@ -35,6 +45,12 @@ function BudgetComparisonTable({ data }) {
                 <TableCell>{formatCurrency(row.amount2023)}</TableCell>
               </TableRow>
             ))}
+            <TableRow>
+              <TableCell><strong>Summe</strong></TableCell>
+              <TableCell><strong>{formatCurrency(sumRow.difference)}</strong></TableCell>
+              <TableCell><strong>{formatCurrency(sumRow.amount2024)}</strong></TableCell>
+              <TableCell><strong>{formatCurrency(sumRow.amount2023)}</strong></TableCell>
+            </TableRow>
           </TableBody>
         </Table>
       </TableContainer>

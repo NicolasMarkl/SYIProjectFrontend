@@ -6,15 +6,40 @@ import { Divider } from '@mui/material';
 // Register the necessary components for Chart.js
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement);
 
-const options = {
+const pieOptions = {
   responsive: true,
   plugins: {
     legend: {
       position: 'top',
+      labels: {
+        boxWidth: 10, // Adjust box width to use less space
+        font: {
+          size: 10, // Adjust font size to use less space
+        },
+        padding: 5, // Adjust padding to use less space
+      },
     },
     tooltip: {
       mode: 'index',
       intersect: false,
+    },
+  },
+};
+
+const barOptions = {
+  responsive: true,
+  plugins: {
+    legend: {
+      display: false, // Hide the legend for the bar chart
+    },
+    tooltip: {
+      mode: 'index',
+      intersect: false,
+    },
+  },
+  scales: {
+    x: {
+      display: false, // Hide x-axis labels
     },
   },
 };
@@ -133,15 +158,15 @@ function BudgetDashboard({ data }) {
       <div style={{ display: 'flex', justifyContent: 'space-around' }}>
         <div>
           <h2>Verteilung auf die Kategorien</h2>
-          <Pie data={accountData} options={options} />
+          <Pie data={accountData} options={pieOptions} />
         </div>
         <div>
           <h2>Verteilung auf die Unterkategorien</h2>
-          <Bar data={departmentData} options={options} />
+          <Bar data={departmentData} options={barOptions} />
         </div>
         <div>
           <h2>Verteilung der Einnahmen</h2>
-          <Pie data={revenueData} options={options} />
+          <Pie data={revenueData} options={pieOptions} />
         </div>
       </div>
     </div>
